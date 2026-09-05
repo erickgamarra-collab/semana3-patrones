@@ -1,0 +1,57 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+title Factory Method - Sistema de gestión de tutorías
+
+interface Notificador <<Product>> {
+  + enviar(destinatario: String, mensaje: String): void
+}
+
+class NotificadorEmail <<ConcreteProduct>> {
+  + enviar(destinatario: String, mensaje: String): void
+}
+class NotificadorSms <<ConcreteProduct>> {
+  + enviar(destinatario: String, mensaje: String): void
+}
+class NotificadorWhatsApp <<ConcreteProduct>> {
+  + enviar(destinatario: String, mensaje: String): void
+}
+class NotificadorPush <<ConcreteProduct>> {
+  + enviar(destinatario: String, mensaje: String): void
+}
+
+abstract class NotificacionFactory <<Creator>> {
+  + crearNotificador(): Notificador
+  + notificar(destinatario: String, mensaje: String): void
+}
+
+class EmailFactory <<ConcreteCreator>> {
+  + crearNotificador(): Notificador
+}
+class SmsFactory <<ConcreteCreator>> {
+  + crearNotificador(): Notificador
+}
+class WhatsAppFactory <<ConcreteCreator>> {
+  + crearNotificador(): Notificador
+}
+class PushFactory <<ConcreteCreator>> {
+  + crearNotificador(): Notificador
+}
+
+Notificador <|.. NotificadorEmail
+Notificador <|.. NotificadorSms
+Notificador <|.. NotificadorWhatsApp
+Notificador <|.. NotificadorPush
+
+NotificacionFactory <|-- EmailFactory
+NotificacionFactory <|-- SmsFactory
+NotificacionFactory <|-- WhatsAppFactory
+NotificacionFactory <|-- PushFactory
+
+NotificacionFactory ..> Notificador : crea/usa
+EmailFactory ..> NotificadorEmail : crea
+SmsFactory ..> NotificadorSms : crea
+WhatsAppFactory ..> NotificadorWhatsApp : crea
+PushFactory ..> NotificadorPush : crea
+@enduml

@@ -1,0 +1,31 @@
+digraph FactoryMethod {
+  graph [rankdir=TB, bgcolor="white", pad=0.2, nodesep=0.5, ranksep=0.65];
+  node [shape=record, fontname="DejaVu Sans", fontsize=10];
+  edge [fontname="DejaVu Sans", fontsize=9];
+
+  Notificador [label="{«interface» Notificador|+ enviar(destinatario, mensaje): void}"];
+  Email [label="{NotificadorEmail|+ enviar(...): void}"];
+  Sms [label="{NotificadorSms|+ enviar(...): void}"];
+  Wa [label="{NotificadorWhatsApp|+ enviar(...): void}"];
+  Push [label="{NotificadorPush|+ enviar(...): void}"];
+
+  Creator [label="{«abstract» NotificacionFactory|+ crearNotificador(): Notificador\l+ notificar(destinatario, mensaje): void\l}"];
+  EF [label="{EmailFactory|+ crearNotificador(): Notificador}"];
+  SF [label="{SmsFactory|+ crearNotificador(): Notificador}"];
+  WF [label="{WhatsAppFactory|+ crearNotificador(): Notificador}"];
+  PF [label="{PushFactory|+ crearNotificador(): Notificador}"];
+
+  Email -> Notificador [arrowhead=empty, style=dashed];
+  Sms -> Notificador [arrowhead=empty, style=dashed];
+  Wa -> Notificador [arrowhead=empty, style=dashed];
+  Push -> Notificador [arrowhead=empty, style=dashed];
+  EF -> Creator [arrowhead=empty];
+  SF -> Creator [arrowhead=empty];
+  WF -> Creator [arrowhead=empty];
+  PF -> Creator [arrowhead=empty];
+  Creator -> Notificador [style=dashed, label=" crea/usa"];
+  EF -> Email [style=dashed, label=" crea"];
+  SF -> Sms [style=dashed, label=" crea"];
+  WF -> Wa [style=dashed, label=" crea"];
+  PF -> Push [style=dashed, label=" crea"];
+}

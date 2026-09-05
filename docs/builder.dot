@@ -1,0 +1,23 @@
+digraph Builder {
+  graph [rankdir=TB, bgcolor="white", pad=0.2, nodesep=0.45, ranksep=0.65];
+  node [shape=record, fontname="DejaVu Sans", fontsize=9.5];
+  edge [fontname="DejaVu Sans", fontsize=8.5];
+
+  Usuario [label="{«abstract» Usuario|- id: String\l- nombre: String\l- email: String\l|+ getId(): String\l+ getNombre(): String\l+ getEmail(): String\l}"];
+  Estudiante [label="{Estudiante|- carrera: String|+ getCarrera(): String}"];
+  Docente [label="{Docente|- especialidad: String|+ getEspecialidad(): String}"];
+  Horario [label="{HorarioDisponible|- id: String\l- docente: Docente\l- inicio: LocalDateTime\l- fin: LocalDateTime\l|+ getId(): String\l+ getDocente(): Docente\l+ getInicio(): LocalDateTime\l+ getFin(): LocalDateTime\l}"];
+  Estado [label="{«enum» EstadoReserva|SOLICITADA\lCONFIRMADA\lREPROGRAMADA\lCANCELADA\lCOMPLETADA\l}"];
+  Reserva [label="{Reserva|- id: String\l- estudiante: Estudiante\l- horario: HorarioDisponible\l- estado: EstadoReserva\l- tema: String\l- observaciones: String\l- enviarRecordatorio: boolean\l|+ confirmar(): void\l+ cancelar(): void\l+ reprogramar(...): void\l+ completar(): void\l}"];
+  Builder [label="{«Builder» ReservaBuilder|- id: String\l- estudiante: Estudiante\l- horario: HorarioDisponible\l- tema = \"Sin especificar\"\l- observaciones = \"Sin observaciones\"\l- enviarRecordatorio = false\l|+ id(...): ReservaBuilder\l+ estudiante(...): ReservaBuilder\l+ horario(...): ReservaBuilder\l+ tema(...): ReservaBuilder\l+ observaciones(...): ReservaBuilder\l+ enviarRecordatorio(...): ReservaBuilder\l+ build(): Reserva\l- validarObligatorios(): void\l}"];
+
+  Estudiante -> Usuario [arrowhead=empty];
+  Docente -> Usuario [arrowhead=empty];
+  Horario -> Docente [label=" docente"];
+  Reserva -> Estudiante [label=" estudiante"];
+  Reserva -> Horario [label=" horario"];
+  Reserva -> Estado [label=" estado"];
+  Builder -> Reserva [style=dashed, label=" construye"];
+  Builder -> Estudiante;
+  Builder -> Horario;
+}
